@@ -156,11 +156,6 @@ export default function BattleOfBrooklyn() {
             </div>
           ))}
         </div>
-
-        <div className="mode-indicator">
-          <span className={mode === 'fought' ? 'active' : ''}>F</span>
-          <span className={mode === 'remembered' ? 'active' : ''}>R</span>
-        </div>
       </div>
 
       {loading && (
@@ -259,59 +254,41 @@ export default function BattleOfBrooklyn() {
           gap: 12px;
           padding: 12px 28px;
           border: none;
-          background: transparent;
           cursor: pointer;
           font-family: 'Bebas Neue', 'Impact', sans-serif;
           font-size: 20px;
           letter-spacing: 2px;
           transition: all 0.3s ease;
-          color: #3D3D3D;
         }
 
         .mode-icon {
           width: 40px;
           height: 40px;
-          filter: brightness(0) saturate(100%);
+          object-fit: contain;
         }
 
-        /* FOUGHT button styling */
+        /* FOUGHT button - burgundy when active */
         .mode-btn.fought {
-          background: transparent;
-          color: #6B3737;
-        }
-
-        .mode-btn.fought .mode-icon {
-          filter: invert(25%) sepia(28%) saturate(1647%) hue-rotate(332deg) brightness(88%) contrast(86%);
-        }
-
-        .mode-btn.fought.active {
           background: #6B3737;
           color: #F5F1E8;
         }
 
-        .mode-btn.fought.active .mode-icon {
-          filter: brightness(0) saturate(100%) invert(96%) sepia(6%) saturate(545%) hue-rotate(352deg) brightness(102%) contrast(93%);
+        .mode-btn.fought:not(.active) {
+          background: transparent;
+          color: #6B3737;
+          border: 2px solid #6B3737;
         }
 
-        /* REMEMBERED button styling */
+        /* REMEMBERED button - navy when active */
         .mode-btn.remembered {
           background: #F5F1E8;
           border: 2px solid #2B4560;
           color: #2B4560;
         }
 
-        .mode-btn.remembered .mode-icon {
-          filter: invert(23%) sepia(25%) saturate(1534%) hue-rotate(174deg) brightness(95%) contrast(89%);
-        }
-
         .mode-btn.remembered.active {
           background: #2B4560;
           color: #F5F1E8;
-          border: 2px solid #2B4560;
-        }
-
-        .mode-btn.remembered.active .mode-icon {
-          filter: brightness(0) saturate(100%) invert(96%) sepia(6%) saturate(545%) hue-rotate(352deg) brightness(102%) contrast(93%);
         }
 
         .mode-btn:hover {
@@ -414,31 +391,6 @@ export default function BattleOfBrooklyn() {
           max-width: 120px;
           line-height: 1.2;
           border: 1px solid #D5CDB8;
-        }
-
-        .mode-indicator {
-          position: absolute;
-          left: 30px;
-          top: 50%;
-          transform: translateY(-50%);
-          display: flex;
-          gap: 8px;
-          background: #2B4560;
-          padding: 12px 16px;
-          border-radius: 30px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .mode-indicator span {
-          font-family: 'Bebas Neue', 'Impact', sans-serif;
-          font-size: 18px;
-          color: #8896A8;
-          transition: all 0.3s ease;
-        }
-
-        .mode-indicator span.active {
-          color: #F5F1E8;
-          font-size: 22px;
         }
 
         .modal-overlay {
@@ -581,10 +533,6 @@ export default function BattleOfBrooklyn() {
             justify-content: center;
             padding: 10px 15px;
             font-size: 16px;
-          }
-
-          .mode-indicator {
-            left: 15px;
           }
 
           .modal-content {
