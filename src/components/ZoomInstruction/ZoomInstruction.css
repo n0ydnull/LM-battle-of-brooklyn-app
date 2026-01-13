@@ -1,0 +1,93 @@
+.zoom-instruction {
+  position: absolute;
+  top: clamp(30px, 3.5vh, 82px);
+  left: clamp(30px, 2.5vw, 89px);
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1vw, 35px);
+  z-index: 100;
+  
+  /* Figma dimensions: 444×122px on tablet */
+  width: clamp(180px, 12.5vw, 444px);
+  height: auto;
+}
+
+/* Icon */
+.zoom-instruction__icon {
+  width: clamp(40px, 3vw, 106px);
+  height: clamp(40px, 3vw, 106px);
+  flex-shrink: 0;
+  object-fit: contain;
+  /* Add animation hint */
+  animation: pulseZoom 3s ease-in-out infinite;
+}
+
+/* Text container */
+.zoom-instruction__text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 0.3vh, 8px);
+  flex: 1;
+}
+
+/* Text lines - Bebas Neue Regular from Figma */
+.zoom-instruction__line1,
+.zoom-instruction__line2 {
+  font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
+  font-weight: 400; /* Regular */
+  font-size: clamp(12px, 0.82vw, 29.04px);
+  line-height: 41.9px; /* From Figma */
+  letter-spacing: -0.03em; /* -3% from Figma */
+  color: #00263A; /* PANTONE 539 CP - dark navy */
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* Subtle zoom pulse animation for icon */
+@keyframes pulseZoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .zoom-instruction {
+    top: 20px;
+    left: 20px;
+    gap: 8px;
+  }
+  
+  .zoom-instruction__line1,
+  .zoom-instruction__line2 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+/* Tablet specific - exact Figma dimensions */
+@media (min-width: 3544px) {
+  .zoom-instruction {
+    top: 82px;
+    left: 89px;
+    width: 444px;
+    height: 122px;
+    gap: 35px;
+  }
+  
+  .zoom-instruction__icon {
+    width: 106px;
+    height: 106px;
+  }
+  
+  .zoom-instruction__line1,
+  .zoom-instruction__line2 {
+    font-size: 29.04px;
+    line-height: 41.9px;
+  }
+}
