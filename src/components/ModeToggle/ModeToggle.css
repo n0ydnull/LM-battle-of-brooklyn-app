@@ -1,0 +1,140 @@
+.mode-toggle {
+  position: absolute;
+  top: 77px;
+  right: 40px;
+  display: flex;
+  gap: 16px;
+  z-index: 100;
+}
+
+/* Button - Exact Figma specifications */
+.mode-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 46.2px 46.2px 46.2px 38.5px;
+  gap: 46.2px;
+  width: 539px;
+  height: 191.73px;
+  background: transparent;
+  border: 3px solid currentColor;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.mode-button:hover::before {
+  transform: scaleX(1);
+}
+
+.mode-button:active {
+  transform: scale(0.98);
+}
+
+/* Fought mode styling */
+.mode-button--fought {
+  color: #6B3529;
+  border-color: #6B3529;
+}
+
+.mode-button--fought.active {
+  background: #6B3529; /* Burgundy/brown when active */
+  color: #FFFBE4;
+  border-color: #6B3529;
+}
+
+.mode-button--fought.active::before {
+  transform: scaleX(1);
+  background: #6B3529;
+}
+
+.mode-button--fought:hover:not(.active) {
+  color: #FFFBE4;
+}
+
+/* Remembered mode styling */
+.mode-button--remembered {
+  color: #00263A;
+  border-color: #00263A;
+}
+
+.mode-button--remembered.active {
+  background: #00263A; /* Dark navy when active */
+  color: #FFFBE4;
+  border-color: #00263A;
+}
+
+.mode-button--remembered.active::before {
+  transform: scaleX(1);
+  background: #00263A;
+}
+
+.mode-button--remembered:hover:not(.active) {
+  color: #FFFBE4;
+}
+
+/* Icon styling - Exact Figma dimensions */
+.mode-button__icon {
+  width: 127.82px;
+  height: 99.33px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mode-button:hover .mode-button__icon {
+  transform: scale(1.05);
+}
+
+.mode-button.active .mode-button__icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Text styling - Exact Figma specifications */
+.mode-button__text {
+  width: 234px;
+  height: 38px;
+  font-family: 'Bebas Neue Pro', 'Bebas Neue', 'Impact', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 42.6888px;
+  line-height: 88%; /* 38px */
+  letter-spacing: 0.15em;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+/* Active text color for FOUGHT mode */
+.mode-button--fought.active .mode-button__text {
+  color: #FFFBE4;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .mode-button:active {
+    transform: scale(0.95);
+  }
+}

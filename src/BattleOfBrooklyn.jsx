@@ -2,15 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import BrooklynMap from './brooklyn-map.svg';
 import BackgroundSVG from './background.svg';
-import FoughtIcon from './fought.svg';
-import RememberedIcon from './remembered.svg';
+import FoughtWhiteIcon from './fought-white.svg';
+import FoughtBurgundyIcon from './fought-burgundy.svg';
+import RememberedWhiteIcon from './remembered-white.svg';
+import RememberedNavyIcon from './remembered-navy.svg';
 import ZoomIcon from './zoom.svg';
 import LogoIcon from './logo.svg';
 
 // Sample location data - you can adjust coordinates later
 const FOUGHT_LOCATIONS = [
   { id: 1, name: 'GOWANUS BAY', x: 520, y: 350 },
-  { id: 2, name: 'WALLABOUT BAY', x: 450, y: 180 },
+  { id: 2, name: 'WALLABOUT BAY', x: 1287, y: 506 },
   { id: 3, name: 'FORT\'S RES', x: 430, y: 250 },
   { id: 4, name: 'CRANBERRY STREET HISTORIC HOUSES', x: 615, y: 270 },
   { id: 5, name: 'HESSISCHEN HOUSE', x: 435, y: 305 },
@@ -108,7 +110,11 @@ export default function BattleOfBrooklyn() {
             className={`mode-btn fought ${mode === 'fought' ? 'active' : ''}`}
             onClick={() => setMode('fought')}
           >
-            <img src={FoughtIcon} alt="Fought" className="mode-icon" />
+            <img 
+              src={mode === 'fought' ? FoughtWhiteIcon : FoughtBurgundyIcon} 
+              alt="Fought" 
+              className="mode-icon" 
+            />
             <span>FOUGHT</span>
           </button>
           
@@ -116,7 +122,11 @@ export default function BattleOfBrooklyn() {
             className={`mode-btn remembered ${mode === 'remembered' ? 'active' : ''}`}
             onClick={() => setMode('remembered')}
           >
-            <img src={RememberedIcon} alt="Remembered" className="mode-icon" />
+            <img 
+              src={mode === 'remembered' ? RememberedWhiteIcon : RememberedNavyIcon} 
+              alt="Remembered" 
+              className="mode-icon" 
+            />
             <span>REMEMBERED</span>
           </button>
         </div>
@@ -180,8 +190,7 @@ export default function BattleOfBrooklyn() {
       )}
 
       <footer className="footer">
-        <img src={LogoIcon} alt="BKLYN" className="footer-logo" />
-        <span className="footer-text">CENTER FOR BROOKLYN HISTORY</span>
+        <img src={LogoIcon} alt="BKLYN Center for Brooklyn History" className="footer-logo" />
       </footer>
 
       <style jsx>{`
@@ -500,20 +509,12 @@ export default function BattleOfBrooklyn() {
         .footer {
           display: flex;
           align-items: center;
-          gap: 15px;
           padding: 15px 30px;
           background: transparent;
         }
 
         .footer-logo {
-          height: 25px;
-        }
-
-        .footer-text {
-          font-size: 11px;
-          letter-spacing: 1px;
-          color: #3D3D3D;
-          font-weight: 600;
+          height: 30px;
         }
 
         @media (max-width: 768px) {
