@@ -1,70 +1,187 @@
-# Getting Started with Create React App
+Battle of Brooklyn Interactive Map
+An interactive historical map application for the Center for Brooklyn History, showcasing sites where the Battle of Brooklyn was fought and where it is remembered today.
+Overview
+This application is designed for a Samsung Galaxy Tab S9+ (14.6") tablet interface that controls a projection wall display via TouchDesigner. Users can explore historical battle sites and memorial locations through an interactive Brooklyn map.
+Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dual Mode Display: Toggle between "Fought" (battle sites) and "Remembered" (memorial sites)
+Interactive Brooklyn Map: Zoomable map (mouse wheel) with location markers
+Projection Wall Integration: Designed to trigger TouchDesigner content on a separate display
+Responsive Design: Scales from development viewport to tablet resolution (3544×2362px)
+Historical Context: Explore 8+ battle locations and 7+ memorial sites across Brooklyn
 
-## Available Scripts
+Tech Stack
 
-In the project directory, you can run:
+React 19.2.3
+Lucide React 0.562.0 (icons)
+React Testing Library (testing)
+Custom Fonts: Bebas Neue Pro
 
-### `npm start`
+Project Structure
+src/
+├── App.js                      # Main application component
+├── App.css                     # Global styles
+├── components/
+│   ├── MapView/               # Brooklyn map display with zoom
+│   │   ├── MapView.jsx
+│   │   ├── MapView.css
+│   │   └── index.js
+│   └── ModeToggle/            # Fought/Remembered toggle buttons
+│       ├── ModeToggle.jsx
+│       ├── ModeToggle.css
+│       └── index.js
+├── context/
+│   └── AppContext.js          # Global state management
+├── utils/
+│   ├── constants.js           # App constants (modes, colors, device specs)
+│   └── locations.js           # Historical location data
+└── assets/
+    ├── index.js               # Asset exports
+    └── images/
+        ├── backgrounds/       # Mode-specific background textures
+        ├── map/              # Brooklyn map SVG
+        ├── icons/            # UI icons
+        └── markers/          # Location marker pins
+Getting Started
+Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Node.js (v16 or higher)
+npm or yarn
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Installation
+bash# Clone the repository
+git clone [repository-url]
 
-### `npm test`
+# Navigate to project directory
+cd battleofbrooklyn-app
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Install dependencies
+npm install
 
-### `npm run build`
+# Start development server
+npm start
+The app will open at http://localhost:3000
+Development
+Available Scripts
+npm start
+Runs the app in development mode. The page will reload when you make changes.
+npm test
+Launches the test runner in interactive watch mode.
+npm run build
+Builds the app for production to the build folder. Optimized and minified.
+Device Specifications
+Target Device: Samsung Galaxy Tab S9+ 14.6"
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Resolution: 3544 × 2362 pixels
+Aspect Ratio: 1.5:1
+High DPI display
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Development Viewport: Standard desktop browsers (1920×1080, 1440×900)
+Responsive Design
+The application uses clamp() CSS functions for fluid scaling:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Minimum size for small screens (200px+ buttons)
+Preferred size using viewport units (vw/vh)
+Maximum size for tablet (exact Figma specifications)
 
-### `npm run eject`
+Example:
+csswidth: clamp(180px, 15.2vw, 539px);
+Features Implementation Status
+✅ Completed
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ Mode toggle buttons (Fought/Remembered)
+ Background texture switching
+ Brooklyn map display
+ Map zoom functionality (1x-2x)
+ Responsive button scaling
+ Proper map positioning
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🚧 In Progress
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+ Location markers (clickable pins)
+ Zoom instruction UI
+ Branding footer
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+📋 Planned
 
-## Learn More
+ TouchDesigner integration
+ Projection wall communication
+ Location detail panels
+ Accessibility improvements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Location Data
+The app includes historical data for:
+Fought Mode (8 locations):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Wallabout Bay
+Pebble Beach
+Prison Ship Martyrs Monument
+Thayer St S
+Howard's 5th Historic Marker
+Old Stone House of Brooklyn
+Battle Pass Historic Marker
+Melody Lanes
 
-### Code Splitting
+Remembered Mode (7 locations):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Prison Ship Martyrs Monument
+Old Stone House of Brooklyn
+Brooklyn Museum
+Dongan Oak Monument
+Maryland Monument
+Altar to Liberty - Minerva Statue
+Verrazzano Narrows Bridge
 
-### Analyzing the Bundle Size
+Design System
+Colors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Background: #E8E1CF (cream/beige)
+Fought Mode: #6B3529 (burgundy/brown)
+Remembered Mode: #00263A (dark navy)
+Text: #FFFBE4 (off-white)
 
-### Making a Progressive Web App
+Typography
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Display Font: Bebas Neue Pro
+Weight: 700 (Bold)
+Letter Spacing: 0.15em
 
-### Advanced Configuration
+Button Specifications
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Width: 15.2vw (180-539px)
+Height: 8.1vh (64-191px)
+Border: 3px solid
+Icon: 127.82×99.33px (tablet)
 
-### Deployment
+TouchDesigner Integration
+The app is designed to communicate with TouchDesigner via WebSocket:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Protocol: WebSocket (ws)
+Host: localhost (configurable)
+Port: 8080 (configurable)
 
-### `npm run build` fails to minify
+Each location has a touchDesignerTrigger field for projection wall content.
+Browser Support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Chrome (recommended)
+Firefox
+Safari
+Edge
+
+Contributing
+When making changes:
+
+Follow the existing component structure
+Use responsive units (clamp, vw, vh)
+Test on both development viewport and tablet resolution
+Update location data in utils/locations.js
+
+Acknowledgments
+
+Center for Brooklyn History - Historical content and design
+Battle of Brooklyn - Revolutionary War history (August 27, 1776)
+
+License
+TBD
+Contact
+Cristian Gonzalez
