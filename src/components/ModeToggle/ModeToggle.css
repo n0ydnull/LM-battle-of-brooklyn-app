@@ -1,24 +1,24 @@
 .mode-toggle {
   position: absolute;
-  top: 77px;
-  right: 40px;
+  top: clamp(20px, 3.26vh, 77px);
+  right: clamp(15px, 1.13vw, 40px);
   display: flex;
-  gap: 16px;
+  gap: clamp(6px, 0.45vw, 16px);
   z-index: 100;
 }
 
-/* Button - Exact Figma specifications */
+/* Button - Responsive with clamp() for all screen sizes */
 .mode-button {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 46.2px 46.2px 46.2px 38.5px;
-  gap: 46.2px;
-  width: 539px;
-  height: 191.73px;
+  padding: clamp(15px, 1.3vw, 46.2px) clamp(12px, 1.09vw, 38.5px);
+  gap: clamp(15px, 1.3vw, 46.2px);
+  width: clamp(180px, 15.2vw, 539px);
+  height: clamp(64px, 8.11vh, 191.73px);
   background: transparent;
-  border: 3px solid currentColor;
+  border: clamp(2px, 0.08vw, 3px) solid currentColor;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
@@ -90,10 +90,10 @@
   color: #FFFBE4;
 }
 
-/* Icon styling - Exact Figma dimensions */
+/* Icon styling - Responsive scaling */
 .mode-button__icon {
-  width: 127.82px;
-  height: 99.33px;
+  width: clamp(42px, 3.61vw, 127.82px);
+  height: clamp(33px, 4.2vh, 99.33px);
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -109,15 +109,15 @@
   filter: brightness(0) invert(1);
 }
 
-/* Text styling - Exact Figma specifications */
+/* Text styling - Responsive font size */
 .mode-button__text {
-  width: 234px;
-  height: 38px;
+  width: auto; /* Let it size naturally */
+  height: auto; /* Let it size naturally */
   font-family: 'Bebas Neue Pro', 'Bebas Neue', 'Impact', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 42.6888px;
-  line-height: 88%; /* 38px */
+  font-size: clamp(16px, 1.2vw, 42.69px);
+  line-height: 88%;
   letter-spacing: 0.15em;
   flex: none;
   order: 1;
@@ -136,5 +136,31 @@
 @media (hover: none) and (pointer: coarse) {
   .mode-button:active {
     transform: scale(0.95);
+  }
+}
+
+/* Optional: Media query for tablet exact size */
+@media (min-width: 3544px) {
+  .mode-toggle {
+    top: 77px;
+    right: 40px;
+    gap: 16px;
+  }
+  
+  .mode-button {
+    padding: 46.2px 46.2px 46.2px 38.5px;
+    gap: 46.2px;
+    width: 539px;
+    height: 191.73px;
+    border: 3px solid currentColor;
+  }
+  
+  .mode-button__icon {
+    width: 127.82px;
+    height: 99.33px;
+  }
+  
+  .mode-button__text {
+    font-size: 42.69px;
   }
 }
