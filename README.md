@@ -1,4 +1,5 @@
 Battle of Brooklyn Interactive Map
+
 An interactive historical map application for the Center for Brooklyn History, showcasing sites where the Battle of Brooklyn was fought and where it is remembered today.
 Overview
 This application is designed for a Samsung Galaxy Tab S9+ (14.6") tablet interface that controls a projection wall display via TouchDesigner. Users can explore historical battle sites and memorial locations through an interactive Brooklyn map.
