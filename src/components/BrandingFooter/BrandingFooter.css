@@ -1,0 +1,50 @@
+.branding-footer {
+  position: absolute;
+  bottom: clamp(20px, 2.5vh, 59px);
+  left: clamp(20px, 2vw, 71px);
+  z-index: 100;
+  
+  /* Ensure logo is visible */
+  display: flex;
+  align-items: center;
+}
+
+/* Logo image - smaller sizing to match reference */
+.branding-footer__logo {
+  /* Much smaller height - the logo should be subtle */
+  height: clamp(30px, 3vh, 70px);
+  width: auto;
+  object-fit: contain;
+  
+  /* Ensure logo stays crisp */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  
+  /* Prevent dragging */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .branding-footer {
+    bottom: 15px;
+    left: 15px;
+  }
+  
+  .branding-footer__logo {
+    height: 30px;
+  }
+}
+
+/* Tablet specific - smaller than initial estimate */
+@media (min-width: 3544px) {
+  .branding-footer {
+    bottom: 59px;
+    left: 71px;
+  }
+  
+  .branding-footer__logo {
+    height: 70px; /* Reduced from 118px */
+  }
+}

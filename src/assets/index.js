@@ -5,6 +5,9 @@ export { default as BackgroundRemembered } from './images/backgrounds/background
 // Map
 export { default as BrooklynMap } from './images/map/brooklyn-map.svg';
 
+// Logo
+export { default as LogoBrooklynHistory } from './images/logo-brooklyn-history.svg';
+
 // Icons
 export { default as IconClose } from './images/icons/icon-close.svg';
 export { default as IconGuns } from './images/icons/icon-guns.svg';

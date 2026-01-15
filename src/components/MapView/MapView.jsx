@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { MODES } from '../../utils/constants';
 import { BackgroundFought, BackgroundRemembered, BrooklynMap } from '../../assets';
+import { getLocationsByMode } from '../../utils/locations';
+import LocationMarker from '../LocationMarker';
 import './MapView.css';
 
 const MapView = () => {
@@ -15,6 +17,9 @@ const MapView = () => {
     setZoomLevel(newZoom);
   };
 
+  // Get locations for current mode
+  const locations = getLocationsByMode(mode);
+
   return (
     <div className="map-view" onWheel={handleWheel}>
       {/* Layer 1: Background texture (switches based on mode) */}
@@ -26,22 +31,32 @@ const MapView = () => {
         />
       </div>
 
-      {/* Layer 2: Brooklyn map (always visible, zoomable but centered) */}
+      {/* Layer 2: Brooklyn map + markers (zoom together) */}
       <div className="map-view__map-layer">
-        <img
-          src={BrooklynMap}
-          alt="Brooklyn map"
-          className="map-view__brooklyn-map"
+        <div 
+          className="map-view__map-container"
           style={{
             transform: `scale(${zoomLevel})`,
             transition: 'transform 0.2s ease-out'
           }}
-        />
-      </div>
-
-      {/* Layer 3: Overlay container for markers (will be added next) */}
-      <div className="map-view__overlay">
-        {/* Location markers will be rendered here */}
+        >
+          {/* Brooklyn map */}
+          <img
+            src={BrooklynMap}
+            alt="Brooklyn map"
+            className="map-view__brooklyn-map"
+          />
+          
+          {/* Markers overlay - now inside the scaled container */}
+          <div className="map-view__markers">
+            {locations.map((location) => (
+              <LocationMarker 
+                key={location.id} 
+                location={location}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

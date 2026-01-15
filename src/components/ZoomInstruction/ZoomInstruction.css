@@ -26,7 +26,7 @@
 .zoom-instruction__text {
   display: flex;
   flex-direction: column;
-  gap: clamp(2px, 0.3vh, 8px);
+  gap: 0; /* Remove gap between lines */
   flex: 1;
 }
 
@@ -36,7 +36,7 @@
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
   font-weight: 400; /* Regular */
   font-size: clamp(12px, 0.82vw, 29.04px);
-  line-height: 41.9px; /* From Figma */
+  line-height: 1; /* Tight line height - no extra space */
   letter-spacing: -0.03em; /* -3% from Figma */
   color: #00263A; /* PANTONE 539 CP - dark navy */
   margin: 0;
@@ -66,7 +66,7 @@
   .zoom-instruction__line1,
   .zoom-instruction__line2 {
     font-size: 12px;
-    line-height: 1.2;
+    line-height: 1;
   }
 }
 
@@ -88,6 +88,6 @@
   .zoom-instruction__line1,
   .zoom-instruction__line2 {
     font-size: 29.04px;
-    line-height: 41.9px;
+    line-height: 1;
   }
 }

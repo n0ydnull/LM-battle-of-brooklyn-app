@@ -4,6 +4,7 @@ import { AppProvider } from './context/AppContext';
 import ModeToggle from './components/ModeToggle';
 import MapView from './components/MapView';
 import ZoomInstruction from './components/ZoomInstruction';
+import BrandingFooter from './components/BrandingFooter';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div className="App">
         <MapView />
         <ZoomInstruction />
+        <BrandingFooter />
         <ModeToggle />
       </div>
     </AppProvider>
