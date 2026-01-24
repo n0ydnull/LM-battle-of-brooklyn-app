@@ -7,6 +7,9 @@ import ZoomInstruction from './components/ZoomInstruction';
 import BrandingFooter from './components/BrandingFooter';
 import LoadingModal from './components/LoadingModal';
 
+// ADD THIS LINE TO TEST
+console.log('APP.JS LOADED - CHECK IF HOOK RUNS');
+
 function App() {
   return (
     <AppProvider>

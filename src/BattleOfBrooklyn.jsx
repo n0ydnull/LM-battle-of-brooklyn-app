@@ -11,25 +11,24 @@ import LogoIcon from './logo.svg';
 
 // Sample location data - you can adjust coordinates later
 const FOUGHT_LOCATIONS = [
-  { id: 1, name: 'GOWANUS BAY', x: 520, y: 350 },
-  { id: 2, name: 'WALLABOUT BAY', x: 1287, y: 506 },
-  { id: 3, name: 'FORT\'S RES', x: 430, y: 250 },
-  { id: 4, name: 'CRANBERRY STREET HISTORIC HOUSES', x: 615, y: 270 },
-  { id: 5, name: 'HESSISCHEN HOUSE', x: 435, y: 305 },
-  { id: 6, name: 'BATTLE PASS AND HISTORIC MARKERS', x: 473, y: 318 },
-  { id: 7, name: 'MARTYR HALL', x: 425, y: 345 },
-  { id: 8, name: 'VETERAN LIONS', x: 395, y: 360 },
-  { id: 9, name: 'BRUCK HOUSE', x: 335, y: 485 }
+  { id: 1, name: 'WALLABOUT BAY', x: 520, y: 350 },
+  { id: 2, name: 'PEBBLE BEACH', x: 487, y: 506 },
+  { id: 3, name: 'PRISON SHIP MARTYRS MONUMENT', x: 530, y: 250 },
+  { id: 4, name: "TRADER JOE'S", x: 515, y: 270 },
+  { id: 5, name: 'OLD STONE HOUSE OF BROOKLYN', x: 535, y: 305 },
+  { id: 6, name: 'BATTLE PASS HISTORIC MARKER', x: 573, y: 318 },
+  { id: 7, name: "HOWARD'S INN HISTORIC MARKER", x: 725, y: 345 },
+  { id: 8, name: 'MELODY LANES', x: 495, y: 360 }
 ];
 
 const REMEMBERED_LOCATIONS = [
-  { id: 1, name: 'PRISON SHIP MARTYRS MONUMENT', x: 445, y: 250 },
-  { id: 2, name: 'BATTLE PASS & BROOKLYN', x: 428, y: 306 },
-  { id: 3, name: 'GOWANUS MUSEUM', x: 473, y: 318 },
-  { id: 4, name: 'DONGAN OAK MONUMENT', x: 468, y: 333 },
-  { id: 5, name: 'MARYLAND MONUMENT', x: 460, y: 348 },
-  { id: 6, name: 'DEAN STREET & BATTLE THOMAS STONE', x: 413, y: 358 },
-  { id: 7, name: 'GRAVELAND-MANNING BRIDGE', x: 285, y: 496 }
+  { id: 1, name: 'PRISON SHIP MARTYRS MONUMENT', x: 545, y: 250 },
+  { id: 2, name: 'OLD STONE HOUSE OF BROOKLYN', x: 528, y: 306 },
+  { id: 3, name: 'BROOKLYN MUSEUM', x: 573, y: 318 },
+  { id: 4, name: 'DONGAN OAK MONUMENT', x: 568, y: 333 },
+  { id: 5, name: 'MARYLAND MONUMENT', x: 560, y: 348 },
+  { id: 6, name: 'ALTAR TO LIBERTY - MINERVA STATUE', x: 513, y: 358 },
+  { id: 7, name: 'VERRAZZANO-NARROWS BRIDGE', x: 385, y: 496 }
 ];
 
 export default function BattleOfBrooklyn() {
@@ -100,7 +99,7 @@ export default function BattleOfBrooklyn() {
         <div className="zoom-instruction">
           <img src={ZoomIcon} alt="Zoom" className="zoom-icon" />
           <div className="instruction-text">
-            <div className="instruction-title">ZOOM ON THE MAP TO ENLARGE DISPLAY</div>
+            <div className="instruction-title">ZOOM ON THE MAP TO ENLARGeeeeeeeeeeeeeeeeeE DISPLAY</div>
             <div className="instruction-subtitle">SUBMISSIONS ON THE PROJECTION WALL</div>
           </div>
         </div>
@@ -340,7 +339,7 @@ export default function BattleOfBrooklyn() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
+          gap: px;
           transition: all 0.3s ease;
         }
 
@@ -349,57 +348,75 @@ export default function BattleOfBrooklyn() {
           z-index: 6;
         }
 
+        /* UPDATED: Marker size increased from 16px to 46.2px */
         .marker-pin {
-          width: 16px;
-          height: 16px;
+          width: 46.2px;
+          height: 46.2px;
           border-radius: 50%;
-          border: 2px solid #F5F1E8;
+          border: 3px solid #F5F1E8;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Add the crosshair icon inside the marker */
+        .marker-pin::before {
+          content: '';
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F5F1E8' stroke-width='2'%3E%3Cline x1='12' y1='2' x2='12' y2='10'/%3E%3Cline x1='12' y1='14' x2='12' y2='22'/%3E%3Cline x1='2' y1='12' x2='10' y2='12'/%3E%3Cline x1='14' y1='12' x2='22' y2='12'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
         }
 
         .location-marker.fought .marker-pin {
           background: #6B3737;
-          box-shadow: 0 2px 6px rgba(107, 55, 55, 0.4);
+          box-shadow: 0 3px 10px rgba(107, 55, 55, 0.5);
         }
 
         .location-marker.remembered .marker-pin {
           background: #2B4560;
-          box-shadow: 0 2px 6px rgba(43, 69, 96, 0.4);
+          box-shadow: 0 3px 10px rgba(43, 69, 96, 0.5);
         }
 
+        /* UPDATED: Arrow pointer scaled proportionally */
         .marker-pin::after {
           content: '';
           position: absolute;
-          bottom: -8px;
+          bottom: -12px;
           left: 50%;
           transform: translateX(-50%);
           width: 0;
           height: 0;
-          border-left: 6px solid transparent;
-          border-right: 6px solid transparent;
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
         }
 
         .location-marker.fought .marker-pin::after {
-          border-top: 8px solid #6B3737;
+          border-top: 14px solid #6B3737;
         }
 
         .location-marker.remembered .marker-pin::after {
-          border-top: 8px solid #2B4560;
+          border-top: 14px solid #2B4560;
         }
 
         .marker-label {
-          font-size: 9px;
+          font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.5px;
           color: #3D3D3D;
           background: rgba(245, 241, 232, 0.95);
-          padding: 4px 8px;
-          border-radius: 3px;
+          padding: 6px 10px;
+          border-radius: 4px;
           white-space: nowrap;
           text-align: center;
-          max-width: 120px;
-          line-height: 1.2;
+          max-width: 160px;
+          line-height: 1.3;
           border: 1px solid #D5CDB8;
+          margin-top: 4px;
         }
 
         .modal-overlay {

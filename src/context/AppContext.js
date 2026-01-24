@@ -1,32 +1,31 @@
 import React, { createContext, useContext, useState } from 'react';
 import { MODES } from '../utils/constants';
+import { useTouchDesigner } from '../hooks/useTouchDesigner';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [mode, setMode] = useState(MODES.FOUGHT);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  
+  const td = useTouchDesigner();
 
   const switchMode = (newMode) => {
     setMode(newMode);
-    setSelectedLocation(null); // Clear selection when switching modes
+    setSelectedLocation(null);
+    td.changeMode(newMode);
+    td.stop();
   };
 
   const selectLocation = (location) => {
+    console.log('[App] Selecting location:', location.name);
     setSelectedLocation(location);
-    setIsLoading(true);
-    
-    // Simulate loading for projection wall
-    // In real implementation, this would trigger TouchDesigner
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    td.selectLocation(location, mode);
   };
 
   const clearSelection = () => {
     setSelectedLocation(null);
-    setIsLoading(false);
+    td.stop();
   };
 
   const value = {
@@ -35,14 +34,12 @@ export const AppProvider = ({ children }) => {
     selectedLocation,
     selectLocation,
     clearSelection,
-    isLoading,
-    setIsLoading,
+    td,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-// Custom hook to use the app context
 export const useApp = () => {
   const context = useContext(AppContext);
   if (!context) {
