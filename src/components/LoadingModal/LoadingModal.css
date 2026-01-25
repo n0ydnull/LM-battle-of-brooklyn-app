@@ -23,31 +23,30 @@
   cursor: pointer;
 }
 
-/* Modal content card - EXACT FIGMA DIMENSIONS: 994×818 */
+/* Modal content card - EXACT FIGMA: 994×818 */
 .loading-modal__content {
   position: relative;
-  width: clamp(500px, 28vw, 994px);
-  height: auto;
-  min-height: clamp(450px, 34.6vh, 818px);
+  width: 994px;
+  height: 818px;
   background: #E2DDBD;
-  border-radius: clamp(10px, 1vw, 20px);
-  padding: clamp(60px, 5.5vw, 100px) clamp(50px, 4.5vw, 90px);
+  border-radius: 20px;
+  padding: 100px 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(40px, 4.5vh, 90px);
+  gap: 90px;
   box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Close button - FIGMA: 36×36 */
+/* Close button - Top right */
 .loading-modal__close {
   position: absolute;
-  top: clamp(25px, 2.8vh, 50px);
-  right: clamp(25px, 2.8vw, 50px);
-  width: clamp(30px, 1vw, 36px);
-  height: clamp(30px, 1vw, 36px);
+  top: 50px;
+  right: 50px;
+  width: 36px;
+  height: 36px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -62,18 +61,21 @@
   transform: scale(1.15);
 }
 
-.loading-modal__close img {
+.loading-modal__close:active {
+  transform: scale(0.95);
+}
+
+.loading-modal__close svg {
   width: 100%;
   height: 100%;
-  object-fit: contain;
 }
 
 /* Title - "BATTLE OF BROOKLYN" */
 .loading-modal__title {
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
   font-weight: 400;
-  font-size: clamp(40px, 1.7vw, 60px);
-  line-height: 41.9px;
+  font-size: 60px;
+  line-height: 42px;
   letter-spacing: -0.03em;
   color: #00263A;
   margin: 0;
@@ -82,10 +84,10 @@
   white-space: nowrap;
 }
 
-/* Center content container - PERFECT SQUARE */
+/* Center content container - EXACT FIGMA: 314×314 */
 .loading-modal__center {
-  width: clamp(200px, 8.9vw, 314px);
-  height: clamp(200px, 8.9vw, 314px);
+  width: 314px;
+  height: 314px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -100,7 +102,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100% + 12px); /* 6px larger on each side - ADJUSTABLE */
+  width: calc(100% + 12px);
   height: calc(100% + 12px);
   background: #FFFFFF;
   border-radius: 50%;
@@ -115,10 +117,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1; /* Above white background */
+  z-index: 1;
 }
 
-/* CSS Spinner - sits on top of white circle */
+/* CSS Spinner */
 .loading-spinner {
   position: relative;
   width: 100%;
@@ -133,7 +135,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: clamp(16px, 1vw, 24px) solid rgba(0, 38, 58, 0.4);
+  border: 24px solid rgba(0, 38, 58, 0.4);
   box-sizing: border-box;
   background: transparent;
 }
@@ -146,26 +148,22 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: clamp(16px, 1vw, 24px) solid transparent;
+  border: 24px solid transparent;
   border-top-color: #00263A;
   border-right-color: #00263A;
   box-sizing: border-box;
   background: transparent;
-}
-
-/* Spinner animation - LOADING STATE (normal speed) */
-.loading-spinner__progress {
   animation: spin 1.5s linear infinite;
 }
 
 /* Spinner animation - PLAYING STATE (slower) */
 .loading-spinner__progress--playing {
-  animation: spin 3s linear infinite; /* 2x slower when playing */
+  animation: spin 3s linear infinite;
 }
 
-/* Spinner animation - PAUSED STATE (no animation) */
+/* Spinner animation - PAUSED STATE (frozen) */
 .loading-spinner__progress--paused {
-  animation: none; /* Freeze in place */
+  animation: none !important;
 }
 
 /* Spinner animation keyframes */
@@ -186,8 +184,8 @@
   transform: translate(-50%, -50%);
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
   font-weight: 400;
-  font-size: clamp(26px, 1vw, 36px);
-  line-height: 41.9px;
+  font-size: 36px;
+  line-height: 42px;
   letter-spacing: -0.03em;
   color: #00263A;
   text-align: center;
@@ -201,7 +199,7 @@
   height: 100%;
   border-radius: 50%;
   background: transparent;
-  border: clamp(16px, 1vw, 24px) solid rgba(0, 38, 58, 0.4);
+  border: 24px solid rgba(0, 38, 58, 0.4);
   box-sizing: border-box;
   cursor: pointer;
   display: flex;
@@ -211,55 +209,59 @@
   padding: 0;
   color: #00263A;
   position: relative;
-  z-index: 1; /* Above white background */
+  z-index: 1;
 }
 
-.loading-modal__play-button:hover {
+.loading-modal__play-button:hover:not(:disabled) {
   transform: scale(1.05);
   border-color: rgba(0, 38, 58, 0.6);
 }
 
-.loading-modal__play-button:active {
+.loading-modal__play-button:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-/* Play/pause icon inside button - EVEN BIGGER */
-.loading-modal__play-icon {
-  width: clamp(80px, 5.5vw, 140px);
-  height: clamp(80px, 5.5vw, 140px);
+.loading-modal__play-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* Status section (icon + message) */
+/* Play/pause icon inside button - centered in 314px circle */
+.loading-modal__play-icon {
+  width: 140px;
+  height: 140px;
+}
+
+/* Status section - EXACT FIGMA: 643×72 */
 .loading-modal__status {
   display: flex;
   align-items: center;
-  gap: clamp(25px, 1.3vw, 46px);
-  width: 100%;
-  max-width: clamp(400px, 18.1vw, 643px);
-  height: clamp(50px, 3vh, 72px);
+  gap: 46px;
+  width: 643px;
+  height: 72px;
   flex-shrink: 0;
 }
 
-/* Projector icon */
+/* Projector icon - EXACT FIGMA: 90×72 */
 .loading-modal__projector-icon {
-  width: clamp(60px, 2.54vw, 90px);
-  height: clamp(48px, 3vh, 72px);
+  width: 90px;
+  height: 72px;
   flex-shrink: 0;
   object-fit: contain;
 }
 
-/* Status message */
+/* Status message - EXACT FIGMA: 507×38 */
 .loading-modal__message {
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
   font-weight: 400;
-  font-size: clamp(20px, 0.9vw, 32px);
-  line-height: 1.2;
+  font-size: 32px;
+  line-height: 38px;
   letter-spacing: -0.03em;
   color: #00263A;
   margin: 0;
   text-transform: uppercase;
-  white-space: nowrap;
-  flex: 1;
+  width: 507px;
+  height: 38px;
 }
 
 /* Animations */
@@ -280,96 +282,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .loading-modal__content {
-    width: 90%;
-    min-height: 450px;
-    padding: 50px 40px;
-    gap: 40px;
-  }
-  
-  .loading-modal__title {
-    font-size: 40px;
-  }
-  
-  .loading-modal__center {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .loading-modal__loading-text {
-    font-size: 26px;
-  }
-  
-  .loading-modal__play-icon {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .loading-modal__message {
-    font-size: 20px;
-    white-space: normal;
-  }
-}
-
-/* Tablet specific */
-@media (min-width: 3544px) {
-  .loading-modal__content {
-    width: 994px;
-    min-height: 818px;
-    padding: 100px 90px;
-    border-radius: 20px;
-    gap: 90px;
-  }
-  
-  .loading-modal__close {
-    width: 36px;
-    height: 36px;
-    top: 50px;
-    right: 50px;
-  }
-  
-  .loading-modal__title {
-    font-size: 60px;
-    line-height: 42px;
-  }
-  
-  .loading-modal__center {
-    width: 314px;
-    height: 314px;
-  }
-  
-  .loading-spinner__track,
-  .loading-spinner__progress,
-  .loading-modal__play-button {
-    border-width: 24px;
-  }
-  
-  .loading-modal__loading-text {
-    font-size: 36px;
-  }
-  
-  .loading-modal__play-icon {
-    width: 140px;
-    height: 140px;
-  }
-  
-  .loading-modal__status {
-    max-width: 643px;
-    height: 72px;
-    gap: 46px;
-  }
-  
-  .loading-modal__projector-icon {
-    width: 90px;
-    height: 72px;
-  }
-  
-  .loading-modal__message {
-    font-size: 32px;
   }
 }

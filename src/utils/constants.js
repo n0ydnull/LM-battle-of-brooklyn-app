@@ -17,11 +17,11 @@ export const MODES = {
   REMEMBERED: 'remembered',
 };
 
-// Tablet specifications (Samsung Galaxy Tab S9+ 14.6")
+// Tablet specifications (Samsung Galaxy Tab S8 Ultra 14.6")
 export const DEVICE = {
-  width: 3544,
-  height: 2362.96,
-  aspectRatio: 3544 / 2362.96,
+  width: 2960,
+  height: 1848,
+  aspectRatio: 2960 / 1848, // ~1.6017 (16:10 aspect ratio)
 };
 
 // TouchDesigner communication settings

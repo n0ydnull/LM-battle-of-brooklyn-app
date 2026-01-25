@@ -1,7 +1,6 @@
 // Location data for Battle of Brooklyn interactive map
 // Coordinates are percentages (0-100) relative to the map container
-// This allows for responsive scaling
-// Updated to match exact names from the map design
+// Updated to match current video basenames (single underscores)
 
 export const locations = {
   fought: [
@@ -16,49 +15,41 @@ export const locations = {
     {
       id: 'pebble-beach',
       name: 'PEBBLE BEACH',
-      x: 43.8,
+      x: 44.3,
       y: 20.5,
       touchDesignerTrigger: 'Fought_Pebble_Beach',
       description: '',
     },
     {
-      id: 'prison-ship-martyrs-monument',
-      name: 'PRISON SHIP MARTYRS MONUMENT',
-      x: 48,
-      y: 26.5,
-      touchDesignerTrigger: 'Fought_Prison_Ship_Monument',
-      description: '',
-    },
-    {
       id: 'trader-joes',
       name: "TRADER JOE'S",
-      x: 42.9,
-      y: 29.3,
+      x: 43.4,
+      y: 29.1,
       touchDesignerTrigger: 'Fought_Trader_Joes',
-      description: '',
-    },
-    {
-      id: 'old-stone-house-brooklyn',
-      name: 'OLD STONE HOUSE OF BROOKLYN',
-      x: 45.8,
-      y: 38.7,
-      touchDesignerTrigger: 'Fought_Old_Stone_House',
-      description: '',
-    },
-    {
-      id: 'battle-pass-historic-marker',
-      name: 'BATTLE PASS HISTORIC MARKER',
-      x: 49.3,
-      y: 41.5,
-      touchDesignerTrigger: 'Fought_Battle_Pass',
       description: '',
     },
     {
       id: 'howards-inn-historic-marker',
       name: "HOWARD'S INN HISTORIC MARKER",
-      x: 61.7,
-      y: 33.4,
+      x: 62.6,
+      y: 33,
       touchDesignerTrigger: 'Fought_Howars_Inn',
+      description: '',
+    },
+    {
+      id: 'old-stone-house-brooklyn',
+      name: 'OLD STONE HOUSE OF BROOKLYN',
+      x: 46.8,
+      y: 38.4,
+      touchDesignerTrigger: 'Fought_Washington_Park',
+      description: '',
+    },
+    {
+      id: 'battle-pass-historic-marker',
+      name: 'BATTLE PASS HISTORIC MARKER',
+      x: 50,
+      y: 41.6,
+      touchDesignerTrigger: 'Fought_Battle_Pass',
       description: '',
     },
     {
@@ -69,14 +60,30 @@ export const locations = {
       touchDesignerTrigger: 'Fought_Melody_Lane',
       description: '',
     },
+    {
+      id: 'battle-hill',
+      name: 'BATTLE HILL',
+      x: 0, // TODO: Get coordinates from Figma
+      y: 0, // TODO: Get coordinates from Figma
+      touchDesignerTrigger: 'Fought_Battle_Hill',
+      description: '',
+    },
+    {
+      id: 'denyse-wharf',
+      name: 'DENYSE WHARF',
+      x: 0, // TODO: Get coordinates from Figma
+      y: 0, // TODO: Get coordinates from Figma
+      touchDesignerTrigger: 'Fought_Denyse_Wharf',
+      description: '',
+    },
   ],
   
   remembered: [
     {
       id: 'prison-ship-martyrs-monument-mem',
       name: 'PRISON SHIP MARTYRS MONUMENT',
-      x: 48,
-      y: 26.5,
+      x: 49.7,
+      y: 25,
       touchDesignerTrigger: 'Remembered_Prison_Ship_Monument',
       description: '',
     },
@@ -91,7 +98,7 @@ export const locations = {
     {
       id: 'brooklyn-museum',
       name: 'BROOKLYN MUSEUM',
-      x: 49.5,
+      x: 50,
       y: 39.8,
       touchDesignerTrigger: 'Remembered_Brooklyn_Museum',
       description: '',

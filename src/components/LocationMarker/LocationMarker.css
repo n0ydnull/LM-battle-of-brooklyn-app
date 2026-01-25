@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: clamp(5px, 0.7vw, 12px);
+  gap: 14px;
   cursor: pointer;
   transform: translate(-50%, -50%);
   pointer-events: auto;
@@ -22,8 +22,8 @@
 
 /* Marker icon */
 .location-marker__icon {
-  width: clamp(14px, 1.4vw, 28px);
-  height: clamp(14px, 1.4vw, 28px);
+  width: 46.2px;
+  height: 46.2px;
   flex-shrink: 0;
   object-fit: contain;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
@@ -37,10 +37,10 @@
 /* Label text - Base styles */
 .location-marker__label {
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
-  font-weight: 400; /* Regular */
-  font-size: clamp(10px, 0.56vw, 20px);
-  line-height: 1.2;
-  letter-spacing: -0.03em; /* -3% */
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 28.8px;
+  letter-spacing: -0.03em;
   text-align: left;
   text-transform: uppercase;
   white-space: nowrap;
@@ -64,42 +64,10 @@
 
 .location-marker--fought.location-marker--selected .location-marker__label {
   font-weight: 700;
-  color: #5C1F13; /* Darker brown when selected */
+  color: #5C1F13;
 }
 
 .location-marker--remembered.location-marker--selected .location-marker__label {
   font-weight: 700;
-  color: #000F28; /* Darker blue when selected */
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .location-marker {
-    gap: 5px;
-  }
-  
-  .location-marker__icon {
-    width: 14px;
-    height: 14px;
-  }
-  
-  .location-marker__label {
-    font-size: 10px;
-  }
-}
-
-/* Tablet specific */
-@media (min-width: 3544px) {
-  .location-marker {
-    gap: 12px;
-  }
-  
-  .location-marker__icon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .location-marker__label {
-    font-size: 20px;
-  }
+  color: #000F28;
 }
