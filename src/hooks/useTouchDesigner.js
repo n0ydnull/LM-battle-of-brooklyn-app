@@ -1,44 +1,159 @@
-// HTTP-based TouchDesigner Hook (using Web Server DAT)
 // src/hooks/useTouchDesigner.js
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { getTDConfig } from '../config/touchdesigner';
 
-const TD_CONFIG = {
-  host: 'localhost',
-  port: 9980,  // Default Web Server DAT port
-  protocol: 'http'
+// Enable verbose logging (set to false for production)
+const VERBOSE_LOGGING = false;
+
+const log = {
+  info: (msg) => {
+    if (VERBOSE_LOGGING) console.log(`[TD] ${msg}`);
+  },
+  ws: (msg) => {
+    if (VERBOSE_LOGGING) console.log(`[TD WS] ${msg}`);
+  },
+  error: (msg) => {
+    console.error(`[TD] ERROR: ${msg}`);
+  }
 };
 
 export const useTouchDesigner = () => {
+  const config = getTDConfig();
+  const TD_HTTP_URL = config.httpUrl;
+  const TD_WS_URL = config.wsUrl;
+
+  log.info(`URLs: ${TD_HTTP_URL}, ${TD_WS_URL}`);
+
   const [isConnected, setIsConnected] = useState(false);
-  const [playbackState, setPlaybackState] = useState('stopped');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [error, setError] = useState(null);
   
-  const statusPollInterval = useRef(null);
-  const isPolling = useRef(false);
+  const wsRef = useRef(null);
+  const reconnectTimeoutRef = useRef(null);
 
-  // Build HTTP URL
-  const getBaseUrl = () => {
-    const { protocol, host, port } = TD_CONFIG;
-    return `${protocol}://${host}:${port}`;
-  };
-
-  // Send HTTP POST request to TouchDesigner
-  const sendMessage = useCallback(async (type, data = {}) => {
+  const handleWebSocketMessage = useCallback((event) => {
     try {
-      const url = getBaseUrl();
-      console.log('[React] Sending:', type);
+      const message = JSON.parse(event.data);
+      log.ws(`Received: ${message.type}`);
+
+      switch (message.type) {
+        case 'connected':
+          setIsConnected(true);
+          setError(null);
+          break;
+
+        case 'video_end':
+          log.info('Video ended');
+          setIsPlaying(false);
+          setIsReady(false);
+          setIsPaused(false);
+          
+          if (window.tdVideoEndCallback) {
+            window.tdVideoEndCallback();
+          }
+          break;
+
+        case 'playback_started':
+          log.info('Playback started');
+          setIsPlaying(true);
+          setIsPaused(false);
+          break;
+
+        case 'playback_paused':
+          log.info('Playback paused');
+          setIsPlaying(false);
+          setIsPaused(true);
+          break;
+
+        case 'playback_stopped':
+          log.info('Playback stopped');
+          setIsPlaying(false);
+          setIsPaused(false);
+          setIsReady(false);
+          break;
+
+        case 'error':
+          log.error(message.data.message || 'Unknown error');
+          setError(message.data.message || 'Unknown error');
+          break;
+
+        default:
+          log.ws(`Unknown message type: ${message.type}`);
+      }
+    } catch (err) {
+      log.error(`Parse error: ${err.message}`);
+    }
+  }, []);
+
+  const connectWebSocket = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
+    try {
+      log.ws('Connecting...');
+      const ws = new WebSocket(TD_WS_URL);
+
+      ws.onopen = () => {
+        console.log('[TD] Connected'); // Always show connection
+        setIsConnected(true);
+        setError(null);
+      };
+
+      ws.onmessage = handleWebSocketMessage;
+
+      ws.onerror = () => {
+        log.error(`Connection failed: ${config.host}:${config.port}`);
+        setError(`Cannot connect to ${config.host}:${config.port}`);
+        setIsConnected(false);
+      };
+
+      ws.onclose = () => {
+        log.ws('Disconnected');
+        setIsConnected(false);
+        wsRef.current = null;
+
+        // Auto-reconnect
+        reconnectTimeoutRef.current = setTimeout(() => {
+          log.ws('Reconnecting...');
+          connectWebSocket();
+        }, 3000);
+      };
+
+      wsRef.current = ws;
+
+    } catch (err) {
+      log.error(`WebSocket error: ${err.message}`);
+      setError(err.message);
+      setIsConnected(false);
+    }
+  }, [TD_WS_URL, config.host, config.port, handleWebSocketMessage]);
+
+  useEffect(() => {
+    connectWebSocket();
+
+    return () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [connectWebSocket]);
+
+  const sendCommand = useCallback(async (type, data = {}) => {
+    try {
+      log.info(`Command: ${type}`);
       
-      const response = await fetch(url, {
+      const response = await fetch(TD_HTTP_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type,
-          data,
-          timestamp: Date.now()
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, data })
       });
 
       if (!response.ok) {
@@ -46,173 +161,85 @@ export const useTouchDesigner = () => {
       }
 
       const result = await response.json();
-      console.log('[React] Response:', result.type || result.status);
       
-      // Update state based on response
-      if (result.type) {
-        handleStateUpdate(result.type, result.data);
+      if (result.status === 'error') {
+        throw new Error(result.message || 'Unknown error');
       }
-      
+
       return result;
-      
+
     } catch (err) {
-      console.error('[React] Request error:', err.message);
+      log.error(`${type} failed: ${err.message}`);
       setError(err.message);
-      setIsConnected(false);
-      return null;
+      return { status: 'error', message: err.message };
     }
-  }, []);
+  }, [TD_HTTP_URL]);
 
-  // Handle state updates from TD responses
-  const handleStateUpdate = useCallback((type, data) => {
-    switch (type) {
-      case 'ready':
-        setPlaybackState('ready');
-        setError(null);
-        break;
-      case 'loading':
-        setPlaybackState('loading');
-        break;
-      case 'playing':
-        setPlaybackState('playing');
-        setError(null);
-        break;
-      case 'paused':
-        setPlaybackState('paused');
-        break;
-      case 'stopped':
-        setPlaybackState('stopped');
-        break;
-      case 'status':
-        if (data && data.playbackState) {
-          setPlaybackState(data.playbackState);
-        }
-        break;
-      default:
-        break;
-    }
-  }, []);
-
-  // Check connection by sending handshake
-  const checkConnection = useCallback(async () => {
-    try {
-      const result = await sendMessage('handshake', {
-        client: 'battle-of-brooklyn-kiosk',
-        version: '1.0'
-      });
-      
-      if (result && result.status === 'success') {
-        setIsConnected(true);
-        setError(null);
-        return true;
-      } else {
-        setIsConnected(false);
-        return false;
-      }
-    } catch (err) {
-      setIsConnected(false);
-      return false;
-    }
-  }, [sendMessage]);
-
-  // Poll status from TouchDesigner
-  const pollStatus = useCallback(async () => {
-    if (!isPolling.current) return;
+  const selectLocation = useCallback(async (location) => {
+    log.info(`Selecting: ${location.name}`);
     
-    try {
-      await sendMessage('get_status');
-    } catch (err) {
-      // Polling error - will try again next interval
-    }
-  }, [sendMessage]);
+    setIsLoading(true);
+    setError(null);
 
-  // Start status polling (every 2 seconds)
-  const startPolling = useCallback(() => {
-    if (statusPollInterval.current) return;
-    
-    isPolling.current = true;
-    statusPollInterval.current = setInterval(() => {
-      pollStatus();
-    }, 2000);
-  }, [pollStatus]);
-
-  // Stop status polling
-  const stopPolling = useCallback(() => {
-    isPolling.current = false;
-    if (statusPollInterval.current) {
-      clearInterval(statusPollInterval.current);
-      statusPollInterval.current = null;
-    }
-  }, []);
-
-  // API methods
-  const selectLocation = useCallback(async (location, mode) => {
-    console.log('[React] Select location:', location.name);
-    setPlaybackState('loading');
-    
-    const result = await sendMessage('select_location', {
-      locationId: location.id,
+    const result = await sendCommand('select_location', {
       trigger: location.touchDesignerTrigger,
-      mode,
       name: location.name,
+      mode: location.mode,
+      locationId: location.id
     });
-    
-    return result !== null;
-  }, [sendMessage]);
+
+    if (result.status === 'success') {
+      setIsReady(true);
+      setIsLoading(false);
+    } else {
+      setError(result.message);
+      setIsLoading(false);
+      setIsReady(false);
+    }
+
+    return result;
+  }, [sendCommand]);
 
   const play = useCallback(async () => {
-    console.log('[React] Play');
-    return await sendMessage('play');
-  }, [sendMessage]);
+    const result = await sendCommand('play');
+    if (result.status === 'success') {
+      setIsPlaying(true);
+      setIsPaused(false);
+    }
+    return result;
+  }, [sendCommand]);
 
   const pause = useCallback(async () => {
-    console.log('[React] Pause');
-    return await sendMessage('pause');
-  }, [sendMessage]);
+    const result = await sendCommand('pause');
+    if (result.status === 'success') {
+      setIsPlaying(false);
+      setIsPaused(true);
+    }
+    return result;
+  }, [sendCommand]);
 
   const stop = useCallback(async () => {
-    console.log('[React] Stop');
-    return await sendMessage('stop');
-  }, [sendMessage]);
-
-  const changeMode = useCallback(async (mode) => {
-    console.log('[React] Change mode:', mode);
-    return await sendMessage('change_mode', { mode });
-  }, [sendMessage]);
-
-  // Initialize on mount
-  useEffect(() => {
-    console.log('[React] Initializing HTTP connection...');
-    
-    // Check connection
-    checkConnection().then((connected) => {
-      if (connected) {
-        console.log('[React] Connected to TouchDesigner Web Server');
-        startPolling();
-      } else {
-        console.warn('[React] Failed to connect to TouchDesigner');
-      }
-    });
-
-    return () => {
-      stopPolling();
-    };
-  }, [checkConnection, startPolling, stopPolling]);
+    const result = await sendCommand('stop');
+    if (result.status === 'success') {
+      setIsPlaying(false);
+      setIsPaused(false);
+      setIsReady(false);
+    }
+    return result;
+  }, [sendCommand]);
 
   return {
     isConnected,
-    playbackState,
-    isLoading: playbackState === 'loading',
-    isPlaying: playbackState === 'playing',
-    isPaused: playbackState === 'paused',
-    isReady: playbackState === 'ready',
+    isLoading,
+    isReady,
+    isPlaying,
+    isPaused,
     error,
+    config,
     selectLocation,
     play,
     pause,
-    stop,
-    changeMode,
-    checkConnection,
+    stop
   };
 };
 
