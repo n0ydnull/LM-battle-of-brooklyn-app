@@ -175,16 +175,22 @@ export const useTouchDesigner = () => {
     }
   }, [TD_HTTP_URL]);
 
-  const selectLocation = useCallback(async (location) => {
-    log.info(`Selecting: ${location.name}`);
-    
+  const selectLocation = useCallback(async (location, mode) => {
+    log.info(`Selecting: ${location?.name}`);
+
+    if (!location?.touchDesignerTrigger) {
+      const msg = 'Invalid location: missing touchDesignerTrigger';
+      setError(msg);
+      return { status: 'error', message: msg };
+    }
+
     setIsLoading(true);
     setError(null);
 
     const result = await sendCommand('select_location', {
       trigger: location.touchDesignerTrigger,
       name: location.name,
-      mode: location.mode,
+      mode: mode ?? location?.mode ?? null,
       locationId: location.id
     });
 
@@ -199,6 +205,7 @@ export const useTouchDesigner = () => {
 
     return result;
   }, [sendCommand]);
+
 
   const play = useCallback(async () => {
     const result = await sendCommand('play');

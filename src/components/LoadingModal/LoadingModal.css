@@ -35,7 +35,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 90px;
+  gap: 46px;
   box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -95,19 +95,51 @@
   position: relative;
 }
 
-/* WHITE CIRCLE BACKGROUND - slightly larger than spinner */
+/* WHITE CIRCLE BACKGROUND - 20px radius larger than spinner (40px diameter) */
 .loading-modal__center::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
+  width: calc(100% + 40px);   /* +20px radius */
+  height: calc(100% + 40px);  /* +20px radius */
   background: #FFFFFF;
   border-radius: 50%;
   z-index: 0;
 }
+
+
+/* Inner white disc (inside the 24px ring) */
+.loading-spinner::after {
+  content: '';
+  position: absolute;
+  inset: 24px;          /* matches ring thickness */
+  border-radius: 50%;
+  background: #FFFFFF;
+  z-index: 0;
+}
+
+/* Icon inside button */
+.loading-modal__play-icon {
+  height: auto;
+  display: block;
+}
+
+/* Play triangle target width */
+.loading-modal__play-icon--play {
+  width: 80px;
+}
+
+/* Pause target width */
+.loading-modal__play-icon--pause {
+  width: 76px;
+}
+
+
+/* Ensure ring layers sit above the inner disc */
+.loading-spinner__track { z-index: 1; }
+.loading-spinner__progress { z-index: 2; }
 
 /* Spinner container */
 .loading-modal__spinner-container {
