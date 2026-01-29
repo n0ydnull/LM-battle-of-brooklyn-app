@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BattleOfBrooklyn</string>
+    <string name="title_activity_main">BattleOfBrooklyn</string>
+    <string name="package_name">com.noyd.battleofbrooklyn</string>
+    <string name="custom_url_scheme">com.noyd.battleofbrooklyn</string>
+</resources>

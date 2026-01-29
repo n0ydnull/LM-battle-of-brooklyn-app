@@ -7,16 +7,16 @@ export const locations = {
     {
       id: 'wallabout-bay',
       name: 'WALLABOUT BAY',
-      x: 46.5,
-      y: 17,
+      x: 46.2,
+      y: 17.3,
       touchDesignerTrigger: 'Fought_Wallabout_Bay',
       description: '',
     },
     {
       id: 'pebble-beach',
       name: 'PEBBLE BEACH',
-      x: 44.3,
-      y: 20.5,
+      x: 43.1,
+      y: 20.3,
       touchDesignerTrigger: 'Fought_Pebble_Beach',
       description: '',
     },
@@ -31,23 +31,23 @@ export const locations = {
     {
       id: 'howards-inn-historic-marker',
       name: "HOWARD'S INN HISTORIC MARKER",
-      x: 62.6,
+      x: 65.8,
       y: 33,
       touchDesignerTrigger: 'Fought_Howars_Inn',
       description: '',
     },
     {
-      id: 'old-stone-house-brooklyn',
-      name: 'OLD STONE HOUSE OF BROOKLYN',
-      x: 46.8,
-      y: 38.4,
+      id: 'washinton-park',
+      name: 'WASHINGTON PARK',
+      x: 44.6,
+      y: 38.7,
       touchDesignerTrigger: 'Fought_Washington_Park',
       description: '',
     },
     {
       id: 'battle-pass-historic-marker',
       name: 'BATTLE PASS HISTORIC MARKER',
-      x: 50,
+      x: 50.5,
       y: 41.6,
       touchDesignerTrigger: 'Fought_Battle_Pass',
       description: '',
@@ -55,24 +55,24 @@ export const locations = {
     {
       id: 'melody-lanes',
       name: 'MELODY LANES',
-      x: 41.2,
-      y: 50,
+      x: 40,
+      y: 50.0,
       touchDesignerTrigger: 'Fought_Melody_Lane',
       description: '',
     },
     {
       id: 'battle-hill',
       name: 'BATTLE HILL',
-      x: 0, // TODO: Get coordinates from Figma
-      y: 0, // TODO: Get coordinates from Figma
+      x: 42.4, // TODO: Get coordinates from Figma
+      y: 47, // TODO: Get coordinates from Figma
       touchDesignerTrigger: 'Fought_Battle_Hill',
       description: '',
     },
     {
       id: 'denyse-wharf',
       name: 'DENYSE WHARF',
-      x: 0, // TODO: Get coordinates from Figma
-      y: 0, // TODO: Get coordinates from Figma
+      x: 35.8, // TODO: Get coordinates from Figma
+      y: 80.8, // TODO: Get coordinates from Figma
       touchDesignerTrigger: 'Fought_Denyse_Wharf',
       description: '',
     },
@@ -82,31 +82,31 @@ export const locations = {
     {
       id: 'prison-ship-martyrs-monument-mem',
       name: 'PRISON SHIP MARTYRS MONUMENT',
-      x: 49.7,
-      y: 25,
+      x: 49.5,
+      y: 25.5,
       touchDesignerTrigger: 'Remembered_Prison_Ship_Monument',
       description: '',
     },
     {
       id: 'old-stone-house-brooklyn-mem',
       name: 'OLD STONE HOUSE OF BROOKLYN',
-      x: 46.5,
-      y: 37,
+      x: 47.4,
+      y: 36.3,
       touchDesignerTrigger: 'Remembered_Old_Stone_House',
       description: '',
     },
     {
       id: 'brooklyn-museum',
       name: 'BROOKLYN MUSEUM',
-      x: 50,
-      y: 39.8,
+      x: 50.5,
+      y: 39.4,
       touchDesignerTrigger: 'Remembered_Brooklyn_Museum',
       description: '',
     },
     {
       id: 'dongan-oak-monument',
       name: 'DONGAN OAK MONUMENT',
-      x: 49.2,
+      x: 50.3,
       y: 42.6,
       touchDesignerTrigger: 'Remembered_Dongan_Oak',
       description: '',
@@ -114,7 +114,7 @@ export const locations = {
     {
       id: 'maryland-monument',
       name: 'MARYLAND MONUMENT',
-      x: 48.4,
+      x: 49.5,
       y: 45.8,
       touchDesignerTrigger: 'Remembered_Maryland_Monument',
       description: '',
@@ -122,15 +122,15 @@ export const locations = {
     {
       id: 'altar-to-liberty-minerva-statue',
       name: 'ALTAR TO LIBERTY - MINERVA STATUE',
-      x: 45.5,
-      y: 48,
+      x: 46.3,
+      y: 48.4,
       touchDesignerTrigger: 'Remembered_Altar_to_Liberty',
       description: '',
     },
     {
       id: 'verrazzano-narrows-bridge',
       name: 'VERRAZZANO-NARROWS BRIDGE',
-      x: 34.1,
+      x: 31.6,
       y: 75.5,
       touchDesignerTrigger: 'Remembered_Verrazano_Bridge',
       description: '',

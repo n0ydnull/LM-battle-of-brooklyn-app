@@ -7,14 +7,15 @@ import './LoadingModal.css';
 const LoadingModal = () => {
   const { selectedLocation, clearSelection, td } = useApp();
 
-  // Auto-play when content is ready - BUT NOT IF PAUSED
+  // Auto-play when video is ready - but NOT if paused
   useEffect(() => {
-    // FIXED: Only auto-play if not already playing AND not paused
-    if (selectedLocation && td.isReady && !td.isPlaying && !td.isPaused) {
-      console.log('[Modal] Auto-playing...');
+    // FIXED: Also check !td.isPaused to prevent auto-play after manual pause
+    if (selectedLocation && td.isReady && !td.isPlaying && !td.isLoading && !td.isPaused) {
+      console.log('[Modal] Auto-playing:', selectedLocation.name);
       td.play();
     }
-  }, [selectedLocation, td.isReady, td.isPlaying, td.isPaused, td]);
+  }, [selectedLocation, td.isReady, td.isPlaying, td.isLoading, td.isPaused]);
+  //                                                              ^^^^^^^^^^^ ADDED THIS
 
   if (!selectedLocation) return null;
 
