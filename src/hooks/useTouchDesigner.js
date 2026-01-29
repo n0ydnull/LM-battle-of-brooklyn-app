@@ -1,9 +1,10 @@
 // src/hooks/useTouchDesigner.js
-// FIXED: Memoized config to prevent infinite re-renders
+// ENHANCED WITH PAUSE DEBUGGING
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getTDConfig } from '../config/touchdesigner';
 
+// Enable verbose logging (set to false for production)
 const VERBOSE_LOGGING = false;
 
 const log = {
@@ -19,10 +20,11 @@ const log = {
 };
 
 export const useTouchDesigner = () => {
-  // FIXED: Memoize config so it doesn't change on every render
-  const config = useMemo(() => getTDConfig(), []);
-  const TD_HTTP_URL = useMemo(() => config.httpUrl, [config.httpUrl]);
-  const TD_WS_URL = useMemo(() => config.wsUrl, [config.wsUrl]);
+  const config = getTDConfig();
+  const TD_HTTP_URL = config.httpUrl;
+  const TD_WS_URL = config.wsUrl;
+
+  log.info(`URLs: ${TD_HTTP_URL}, ${TD_WS_URL}`);
 
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,7 @@ export const useTouchDesigner = () => {
   const handleWebSocketMessage = useCallback((event) => {
     try {
       const message = JSON.parse(event.data);
-      console.log('[TD WS] Received:', message.type);
+      console.log('[TD WS] Received:', message.type); // ALWAYS LOG
 
       switch (message.type) {
         case 'connected':
@@ -57,13 +59,13 @@ export const useTouchDesigner = () => {
           break;
 
         case 'playback_started':
-          console.log('[TD] Playback started');
+          console.log('[TD] Playback started - setting isPlaying=true, isPaused=false');
           setIsPlaying(true);
           setIsPaused(false);
           break;
 
         case 'playback_paused':
-          console.log('[TD] Playback paused');
+          console.log('[TD] Playback paused - setting isPlaying=false, isPaused=true');
           setIsPlaying(false);
           setIsPaused(true);
           break;
@@ -116,6 +118,7 @@ export const useTouchDesigner = () => {
         setIsConnected(false);
         wsRef.current = null;
 
+        // Auto-reconnect
         reconnectTimeoutRef.current = setTimeout(() => {
           log.ws('Reconnecting...');
           connectWebSocket();
@@ -146,7 +149,7 @@ export const useTouchDesigner = () => {
 
   const sendCommand = useCallback(async (type, data = {}) => {
     try {
-      log.info(`Command: ${type}`);
+      console.log(`[TD] Sending command: ${type}`);
       
       const response = await fetch(TD_HTTP_URL, {
         method: 'POST',
@@ -159,6 +162,7 @@ export const useTouchDesigner = () => {
       }
 
       const result = await response.json();
+      console.log(`[TD] Command ${type} response:`, result);
       
       if (result.status === 'error') {
         throw new Error(result.message || 'Unknown error');
@@ -182,10 +186,6 @@ export const useTouchDesigner = () => {
       return { status: 'error', message: msg };
     }
 
-    console.log('[TD] Resetting state for new location');
-    setIsPlaying(false);
-    setIsPaused(false);
-    setIsReady(false);
     setIsLoading(true);
     setError(null);
 
@@ -197,11 +197,9 @@ export const useTouchDesigner = () => {
     });
 
     if (result.status === 'success') {
-      console.log('[TD] Location loaded successfully');
       setIsReady(true);
       setIsLoading(false);
     } else {
-      console.log('[TD] Location load failed:', result.message);
       setError(result.message);
       setIsLoading(false);
       setIsReady(false);
@@ -211,20 +209,48 @@ export const useTouchDesigner = () => {
   }, [sendCommand]);
 
   const play = useCallback(async () => {
-    console.log('[TD] Play command');
+    console.log('[TD] play() called');
     const result = await sendCommand('play');
+    console.log('[TD] play() result:', result);
+    
+    if (result.status === 'success') {
+      console.log('[TD] play() success - setting isPlaying=true, isPaused=false');
+      setIsPlaying(true);
+      setIsPaused(false);
+    } else {
+      console.log('[TD] play() FAILED:', result.message);
+    }
     return result;
   }, [sendCommand]);
 
   const pause = useCallback(async () => {
-    console.log('[TD] Pause command');
+    console.log('[TD] pause() called');
     const result = await sendCommand('pause');
+    console.log('[TD] pause() result:', result);
+    
+    if (result.status === 'success') {
+      console.log('[TD] pause() success - setting isPlaying=false, isPaused=true');
+      setIsPlaying(false);
+      setIsPaused(true);
+    } else {
+      console.log('[TD] pause() FAILED:', result.message);
+    }
     return result;
   }, [sendCommand]);
 
   const stop = useCallback(async () => {
-    console.log('[TD] Stop command');
+    console.log('[TD] stop() called');
     const result = await sendCommand('stop');
+    console.log('[TD] stop() result:', result);
+    
+    if (result.status === 'success') {
+      console.log('[TD] stop() success - setting isPlaying=false, isPaused=false, isReady=false');
+      setIsPlaying(false);
+      setIsPaused(false);
+      setIsReady(false);
+    } else {
+      console.log('[TD] stop() FAILED:', result.message);
+    }
     return result;
   }, [sendCommand]);
 

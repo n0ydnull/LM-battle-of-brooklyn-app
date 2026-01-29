@@ -3,6 +3,11 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  
+  /* Prevent default touch behaviors that interfere with pinch zoom */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Layer 1: Background texture */
@@ -23,6 +28,7 @@
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 /* Fade animation when switching backgrounds */
@@ -48,6 +54,9 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  
+  /* Allow touch events to pass through to map container */
+  pointer-events: none;
 }
 
 /* Container that holds both map and markers - THIS SCALES TOGETHER */
@@ -59,6 +68,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  /* Re-enable pointer events for map and markers */
+  pointer-events: auto;
 }
 
 /* Brooklyn map image */
@@ -70,6 +82,7 @@
   user-select: none;
   -webkit-user-drag: none;
   opacity: 1;
+  pointer-events: none;
 }
 
 /* Markers container - positioned absolutely within the map container */

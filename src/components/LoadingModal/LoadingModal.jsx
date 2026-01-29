@@ -8,14 +8,13 @@ const LoadingModal = () => {
   const { selectedLocation, clearSelection, td } = useApp();
 
   // Auto-play when video is ready - but NOT if paused
+  // FIXED: Removed 'td' from dependency array to fix React warning
   useEffect(() => {
-    // FIXED: Also check !td.isPaused to prevent auto-play after manual pause
     if (selectedLocation && td.isReady && !td.isPlaying && !td.isLoading && !td.isPaused) {
       console.log('[Modal] Auto-playing:', selectedLocation.name);
       td.play();
     }
   }, [selectedLocation, td.isReady, td.isPlaying, td.isLoading, td.isPaused]);
-  //                                                              ^^^^^^^^^^^ ADDED THIS
 
   if (!selectedLocation) return null;
 
@@ -24,12 +23,21 @@ const LoadingModal = () => {
   };
 
   const togglePlayPause = () => {
-    console.log('[Modal] Toggle play/pause');
+    console.log('[Modal] ===== PAUSE/PLAY DEBUG =====');
+    console.log('[Modal] isConnected:', td.isConnected);
+    console.log('[Modal] isPlaying:', td.isPlaying);
+    console.log('[Modal] isPaused:', td.isPaused);
+    console.log('[Modal] isLoading:', td.isLoading);
+    console.log('[Modal] isReady:', td.isReady);
+    
     if (td.isPlaying) {
+      console.log('[Modal] Calling td.pause()...');
       td.pause();
     } else {
+      console.log('[Modal] Calling td.play()...');
       td.play();
     }
+    console.log('[Modal] ===== END DEBUG =====');
   };
 
   const getStatusMessage = () => {
