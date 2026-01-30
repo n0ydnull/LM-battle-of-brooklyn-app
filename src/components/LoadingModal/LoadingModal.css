@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 
-/* Modal content card - EXACT FIGMA: 994×818 */
+/* Modal content card - EXACT FIGMA: 994Ã—818 */
 .loading-modal__content {
   position: relative;
   width: 994px;
@@ -84,7 +84,7 @@
   white-space: nowrap;
 }
 
-/* Center content container - EXACT FIGMA: 314×314 */
+/* Center content container - EXACT FIGMA: 314Ã—314 */
 .loading-modal__center {
   width: 314px;
   height: 314px;
@@ -264,7 +264,7 @@
   height: 140px;
 }
 
-/* Status section - EXACT FIGMA: 643×72 */
+/* Status section - EXACT FIGMA: 643Ã—72 */
 .loading-modal__status {
   display: flex;
   align-items: center;
@@ -274,7 +274,7 @@
   flex-shrink: 0;
 }
 
-/* Projector icon - EXACT FIGMA: 90×72 */
+/* Projector icon - EXACT FIGMA: 90Ã—72 */
 .loading-modal__projector-icon {
   width: 90px;
   height: 72px;
@@ -282,7 +282,7 @@
   object-fit: contain;
 }
 
-/* Status message - EXACT FIGMA: 507×38 */
+/* Status message - EXACT FIGMA: 507Ã—38 */
 .loading-modal__message {
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
   font-weight: 400;
@@ -294,6 +294,9 @@
   text-transform: uppercase;
   width: 507px;
   height: 38px;
+  display: flex;
+  align-items: center;
+  padding-top: 3px; /* Fine-tune visual alignment with icon */
 }
 
 /* Animations */
@@ -315,4 +318,23 @@
     opacity: 1;
     transform: translateY(0);
   }
+}/* Add these styles to LoadingModal.css */
+
+/* Animated progress ring - smooth transition */
+.loading-modal__progress-circle {
+  transition: stroke-dashoffset 0.3s ease-out;
+}
+
+/* Smoother transition when playing */
+.loading-modal__progress-circle.playing {
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Progress ring container */
+.loading-modal__progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
 }

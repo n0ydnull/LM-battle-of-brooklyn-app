@@ -4,7 +4,7 @@ import { useTouchDesigner } from '../hooks/useTouchDesigner';
 
 const AppContext = createContext();
 
-const CLIP_DURATION_MS = 55_000;
+const CLIP_DURATION_MS = 40_000;
 const TICK_MS = 100;
 
 export const AppProvider = ({ children }) => {

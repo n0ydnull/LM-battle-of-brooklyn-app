@@ -5,10 +5,7 @@ import { IconProjector } from '../../assets';
 import './LoadingModal.css';
 
 const LoadingModal = () => {
-  const { selectedLocation, clearSelection, td } = useApp();
-
-  // REMOVED: Auto-play useEffect - TouchDesigner now handles auto-play after loading
-  // The video will automatically start playing when TD sends the 'playback_started' message
+  const { selectedLocation, clearSelection, td, elapsedMs, clipDurationMs } = useApp();
 
   if (!selectedLocation) return null;
 
@@ -44,6 +41,14 @@ const LoadingModal = () => {
     return 'READY TO PLAY';
   };
 
+  // Calculate progress percentage (0-100)
+  const progressPercent = clipDurationMs > 0 ? (elapsedMs / clipDurationMs) * 100 : 0;
+
+  // SVG circle properties
+  const radius = 145; // (314 - 24) / 2 = 145px (accounting for 24px stroke)
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
+
   return (
     <div className="loading-modal">
       <div className="loading-modal__overlay" onClick={handleClose}></div>
@@ -61,6 +66,7 @@ const LoadingModal = () => {
 
         <div className="loading-modal__center">
           {td.isLoading ? (
+            // Loading spinner (spinning animation)
             <div className="loading-modal__spinner-container">
               <div className="loading-spinner">
                 <div className="loading-spinner__track"></div>
@@ -69,23 +75,67 @@ const LoadingModal = () => {
               <span className="loading-modal__loading-text">LOADING</span>
             </div>
           ) : (
-            <button 
-              className="loading-modal__play-button"
-              onClick={togglePlayPause}
-              disabled={!td.isConnected}
-              aria-label={td.isPlaying ? "Pause playback" : "Play video"}
-            >
-              {td.isPlaying ? (
-                <svg viewBox="0 0 100 100" className="loading-modal__play-icon">
-                  <rect x="30" y="25" width="15" height="50" fill="#00263A"/>
-                  <rect x="55" y="25" width="15" height="50" fill="#00263A"/>
-                </svg>
-              ) : (
-                <svg viewBox="0 0 100 100" className="loading-modal__play-icon">
-                  <polygon points="35,25 35,75 75,50" fill="#00263A"/>
-                </svg>
-              )}
-            </button>
+            // Progress ring (fills as video plays) + play/pause button
+            <>
+              {/* Animated progress ring */}
+              <svg 
+                className="loading-modal__progress-ring" 
+                width="314" 
+                height="314"
+                style={{ 
+                  position: 'absolute', 
+                  top: 0, 
+                  left: 0,
+                  transform: 'rotate(-90deg)', // Start from top
+                  pointerEvents: 'none',
+                  zIndex: 1
+                }}
+              >
+                {/* Background track (gray) */}
+                <circle
+                  cx="157"
+                  cy="157"
+                  r={radius}
+                  fill="none"
+                  stroke="rgba(0, 38, 58, 0.4)"
+                  strokeWidth="24"
+                />
+                
+                {/* Animated progress (dark blue) */}
+                <circle
+                  cx="157"
+                  cy="157"
+                  r={radius}
+                  fill="none"
+                  stroke="#00263A"
+                  strokeWidth="24"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  className={`loading-modal__progress-circle ${td.isPlaying ? 'playing' : ''}`}
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              {/* Play/Pause button */}
+              <button 
+                className="loading-modal__play-button"
+                onClick={togglePlayPause}
+                disabled={!td.isConnected}
+                aria-label={td.isPlaying ? "Pause playback" : "Play video"}
+                style={{ position: 'relative', zIndex: 2 }}
+              >
+                {td.isPlaying ? (
+                  <svg viewBox="0 0 100 100" className="loading-modal__play-icon">
+                    <rect x="30" y="25" width="15" height="50" fill="#00263A"/>
+                    <rect x="55" y="25" width="15" height="50" fill="#00263A"/>
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 100 100" className="loading-modal__play-icon">
+                    <polygon points="35,25 35,75 75,50" fill="#00263A"/>
+                  </svg>
+                )}
+              </button>
+            </>
           )}
         </div>
 

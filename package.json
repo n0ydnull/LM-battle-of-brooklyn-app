@@ -18,8 +18,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:emulator": "env-cmd -f .env.android.emulator react-scripts build",
+    "build:production": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npm run build && npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:run:android": "npm run build && npx cap sync && npx cap run android",
+    "cap:run:emulator": "npm run build:emulator && npx cap sync && npx cap run android"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.0.1"
+    "@capacitor/cli": "^8.0.1",
+    "env-cmd": "^11.0.0"
   }
 }
