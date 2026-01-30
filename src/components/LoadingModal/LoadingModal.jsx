@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { X } from 'lucide-react';
 import { IconProjector } from '../../assets';
@@ -7,14 +7,8 @@ import './LoadingModal.css';
 const LoadingModal = () => {
   const { selectedLocation, clearSelection, td } = useApp();
 
-  // Auto-play when video is ready - but NOT if paused
-  // FIXED: Removed 'td' from dependency array to fix React warning
-  useEffect(() => {
-    if (selectedLocation && td.isReady && !td.isPlaying && !td.isLoading && !td.isPaused) {
-      console.log('[Modal] Auto-playing:', selectedLocation.name);
-      td.play();
-    }
-  }, [selectedLocation, td.isReady, td.isPlaying, td.isLoading, td.isPaused]);
+  // REMOVED: Auto-play useEffect - TouchDesigner now handles auto-play after loading
+  // The video will automatically start playing when TD sends the 'playback_started' message
 
   if (!selectedLocation) return null;
 
@@ -23,21 +17,12 @@ const LoadingModal = () => {
   };
 
   const togglePlayPause = () => {
-    console.log('[Modal] ===== PAUSE/PLAY DEBUG =====');
-    console.log('[Modal] isConnected:', td.isConnected);
-    console.log('[Modal] isPlaying:', td.isPlaying);
-    console.log('[Modal] isPaused:', td.isPaused);
-    console.log('[Modal] isLoading:', td.isLoading);
-    console.log('[Modal] isReady:', td.isReady);
-    
+    console.log('[Modal] Toggle play/pause');
     if (td.isPlaying) {
-      console.log('[Modal] Calling td.pause()...');
       td.pause();
     } else {
-      console.log('[Modal] Calling td.play()...');
       td.play();
     }
-    console.log('[Modal] ===== END DEBUG =====');
   };
 
   const getStatusMessage = () => {

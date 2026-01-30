@@ -1,5 +1,4 @@
 // src/hooks/useTouchDesigner.js
-// ENHANCED WITH PAUSE DEBUGGING
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getTDConfig } from '../config/touchdesigner';
@@ -39,7 +38,7 @@ export const useTouchDesigner = () => {
   const handleWebSocketMessage = useCallback((event) => {
     try {
       const message = JSON.parse(event.data);
-      console.log('[TD WS] Received:', message.type); // ALWAYS LOG
+      log.ws(`Received: ${message.type}`);
 
       switch (message.type) {
         case 'connected':
@@ -48,7 +47,7 @@ export const useTouchDesigner = () => {
           break;
 
         case 'video_end':
-          console.log('[TD] Video ended');
+          log.info('Video ended');
           setIsPlaying(false);
           setIsReady(false);
           setIsPaused(false);
@@ -59,19 +58,22 @@ export const useTouchDesigner = () => {
           break;
 
         case 'playback_started':
-          console.log('[TD] Playback started - setting isPlaying=true, isPaused=false');
+          log.info('Playback started');
+          // FIXED: When playback starts, we're ready and no longer loading
           setIsPlaying(true);
           setIsPaused(false);
+          setIsReady(true);
+          setIsLoading(false);
           break;
 
         case 'playback_paused':
-          console.log('[TD] Playback paused - setting isPlaying=false, isPaused=true');
+          log.info('Playback paused');
           setIsPlaying(false);
           setIsPaused(true);
           break;
 
         case 'playback_stopped':
-          console.log('[TD] Playback stopped');
+          log.info('Playback stopped');
           setIsPlaying(false);
           setIsPaused(false);
           setIsReady(false);
@@ -80,6 +82,7 @@ export const useTouchDesigner = () => {
         case 'error':
           log.error(message.data.message || 'Unknown error');
           setError(message.data.message || 'Unknown error');
+          setIsLoading(false);
           break;
 
         default:
@@ -100,7 +103,7 @@ export const useTouchDesigner = () => {
       const ws = new WebSocket(TD_WS_URL);
 
       ws.onopen = () => {
-        console.log('[TD] WebSocket connected');
+        console.log('[TD] Connected'); // Always show connection
         setIsConnected(true);
         setError(null);
       };
@@ -149,7 +152,7 @@ export const useTouchDesigner = () => {
 
   const sendCommand = useCallback(async (type, data = {}) => {
     try {
-      console.log(`[TD] Sending command: ${type}`);
+      log.info(`Command: ${type}`);
       
       const response = await fetch(TD_HTTP_URL, {
         method: 'POST',
@@ -162,7 +165,6 @@ export const useTouchDesigner = () => {
       }
 
       const result = await response.json();
-      console.log(`[TD] Command ${type} response:`, result);
       
       if (result.status === 'error') {
         throw new Error(result.message || 'Unknown error');
@@ -186,7 +188,11 @@ export const useTouchDesigner = () => {
       return { status: 'error', message: msg };
     }
 
+    // Set loading immediately
     setIsLoading(true);
+    setIsReady(false);
+    setIsPlaying(false);
+    setIsPaused(false);
     setError(null);
 
     const result = await sendCommand('select_location', {
@@ -197,8 +203,10 @@ export const useTouchDesigner = () => {
     });
 
     if (result.status === 'success') {
-      setIsReady(true);
-      setIsLoading(false);
+      // DON'T set isReady or turn off isLoading here
+      // TouchDesigner will auto-play after loading and send 'playback_started' via WebSocket
+      // The WebSocket message handler will update isPlaying, isReady, and turn off isLoading
+      log.info('Video load initiated, waiting for TD to start playback...');
     } else {
       setError(result.message);
       setIsLoading(false);
@@ -208,48 +216,30 @@ export const useTouchDesigner = () => {
     return result;
   }, [sendCommand]);
 
+
   const play = useCallback(async () => {
-    console.log('[TD] play() called');
     const result = await sendCommand('play');
-    console.log('[TD] play() result:', result);
-    
     if (result.status === 'success') {
-      console.log('[TD] play() success - setting isPlaying=true, isPaused=false');
-      setIsPlaying(true);
-      setIsPaused(false);
-    } else {
-      console.log('[TD] play() FAILED:', result.message);
+      // States will be updated by WebSocket message
+      log.info('Play command sent');
     }
     return result;
   }, [sendCommand]);
 
   const pause = useCallback(async () => {
-    console.log('[TD] pause() called');
     const result = await sendCommand('pause');
-    console.log('[TD] pause() result:', result);
-    
     if (result.status === 'success') {
-      console.log('[TD] pause() success - setting isPlaying=false, isPaused=true');
-      setIsPlaying(false);
-      setIsPaused(true);
-    } else {
-      console.log('[TD] pause() FAILED:', result.message);
+      // States will be updated by WebSocket message
+      log.info('Pause command sent');
     }
     return result;
   }, [sendCommand]);
 
   const stop = useCallback(async () => {
-    console.log('[TD] stop() called');
     const result = await sendCommand('stop');
-    console.log('[TD] stop() result:', result);
-    
     if (result.status === 'success') {
-      console.log('[TD] stop() success - setting isPlaying=false, isPaused=false, isReady=false');
-      setIsPlaying(false);
-      setIsPaused(false);
-      setIsReady(false);
-    } else {
-      console.log('[TD] stop() FAILED:', result.message);
+      // States will be updated by WebSocket message
+      log.info('Stop command sent');
     }
     return result;
   }, [sendCommand]);
