@@ -6,7 +6,7 @@
  */
 
 // Enable verbose logging (set to false for production)
-const VERBOSE_LOGGING = false;
+const VERBOSE_LOGGING = true;
 
 const log = {
   info: (msg) => {

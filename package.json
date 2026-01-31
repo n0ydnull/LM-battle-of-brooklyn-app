@@ -16,18 +16,28 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build:emulator": "env-cmd -f .env.android.emulator react-scripts build",
-    "build:production": "env-cmd -f .env.production react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "cap:add:android": "npx cap add android",
-    "cap:sync": "npm run build && npx cap sync",
-    "cap:open:android": "npx cap open android",
-    "cap:run:android": "npm run build && npx cap sync && npx cap run android",
-    "cap:run:emulator": "npm run build:emulator && npx cap sync && npx cap run android"
-  },
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "build:dev": "env-cmd -f .env.development react-scripts build",
+  "build:emulator": "env-cmd -f .env.emulator react-scripts build",
+  "build:production": "env-cmd -f .env.production react-scripts build",
+  "test": "react-scripts test",
+  
+ 
+  "cap:sync": "npx cap sync",
+  "cap:sync:dev": "npm run build:dev && npx cap sync",
+  "cap:sync:emulator": "npm run build:emulator && npx cap sync",
+  "cap:sync:production": "npm run build:production && npx cap sync",
+  
+
+  "android:emulator": "npm run build:emulator && npx cap sync && npx cap run android",
+  
+ 
+  "android:studio": "npx cap open android",
+  
+  
+  "android:build": "npm run build:production && npx cap sync && npx cap open android"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -48,6 +58,6 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.1",
-    "env-cmd": "^11.0.0"
+    "env-cmd": "^10.1.0"
   }
 }

@@ -1,24 +1,23 @@
 .zoom-instruction {
   position: absolute;
-  top: clamp(30px, 3.5vh, 82px);
+  top: clamp(20px, 3.26vh, 77px);
   left: clamp(30px, 2.5vw, 89px);
   display: flex;
   align-items: center;
   gap: clamp(10px, 1vw, 35px);
   z-index: 100;
   
-  /* Figma dimensions: 444×122px on tablet */
-  width: clamp(180px, 12.5vw, 444px);
-  height: auto;
+  /* Match height of mode toggle buttons */
+  height: clamp(64px, 8.11vh, 191.73px);
+  width: auto;
 }
 
 /* Icon */
 .zoom-instruction__icon {
-  width: clamp(40px, 3vw, 106px);
-  height: clamp(40px, 3vw, 106px);
+  height: 100%;
+  width: auto;
   flex-shrink: 0;
   object-fit: contain;
-  /* Add animation hint */
   animation: pulseZoom 3s ease-in-out infinite;
 }
 
@@ -26,19 +25,20 @@
 .zoom-instruction__text {
   display: flex;
   flex-direction: column;
-  gap: 0; /* Remove gap between lines */
+  gap: 0;
   flex: 1;
+  justify-content: center;
 }
 
 /* Text lines - Bebas Neue Regular from Figma */
 .zoom-instruction__line1,
 .zoom-instruction__line2 {
   font-family: 'Bebas Neue', 'Bebas Neue Pro', 'Impact', sans-serif;
-  font-weight: 400; /* Regular */
-  font-size: clamp(12px, 0.82vw, 29.04px);
-  line-height: 1; /* Tight line height - no extra space */
-  letter-spacing: -0.03em; /* -3% from Figma */
-  color: #00263A; /* PANTONE 539 CP - dark navy */
+  font-weight: 400;
+  font-size: clamp(14px, 1vw, 29.04px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #00263A;
   margin: 0;
   padding: 0;
   white-space: nowrap;
@@ -65,29 +65,23 @@
   
   .zoom-instruction__line1,
   .zoom-instruction__line2 {
-    font-size: 12px;
-    line-height: 1;
+    font-size: 14px;
+    line-height: 1.1;
   }
 }
 
 /* Tablet specific - exact Figma dimensions */
 @media (min-width: 3544px) {
   .zoom-instruction {
-    top: 82px;
+    top: 77px;
     left: 89px;
-    width: 444px;
-    height: 122px;
+    height: 191.73px;
     gap: 35px;
-  }
-  
-  .zoom-instruction__icon {
-    width: 106px;
-    height: 106px;
   }
   
   .zoom-instruction__line1,
   .zoom-instruction__line2 {
     font-size: 29.04px;
-    line-height: 1;
+    line-height: 1.1;
   }
 }
