@@ -7,7 +7,7 @@ export const locations = {
     {
       id: 'wallabout-bay',
       name: 'WALLABOUT BAY',
-      x: 46.8,
+      x: 47,
       y: 17.3,
       touchDesignerTrigger: 'Fought_Wallabout_Bay',
       description: '',
@@ -23,15 +23,15 @@ export const locations = {
     {
       id: 'trader-joes',
       name: "ATLANTIC AVENUE",
-      x: 43.9,
-      y: 29,
+      x: 44.1,
+      y: 29.5,
       touchDesignerTrigger: 'Fought_Trader_Joes',
       description: '',
     },
     {
       id: 'howards-inn-historic-marker',
       name: "HOWARD'S INN HISTORIC MARKER",
-      x: 62.8,
+      x: 67.0,
       y: 33,
       touchDesignerTrigger: 'Fought_Howars_Inn',
       description: '',
@@ -39,15 +39,15 @@ export const locations = {
     {
       id: 'washinton-park',
       name: 'WASHINGTON PARK',
-      x: 45.5,
-      y: 38,
+      x: 45.3,
+      y: 37.8,
       touchDesignerTrigger: 'Fought_Washington_Park',
       description: '',
     },
     {
       id: 'battle-pass-historic-marker',
       name: 'BATTLE PASS HISTORIC MARKER',
-      x: 50.5,
+      x: 51,
       y: 41.6,
       touchDesignerTrigger: 'Fought_Battle_Pass',
       description: '',
@@ -55,8 +55,8 @@ export const locations = {
     {
       id: 'melody-lanes',
       name: 'MELODY LANES',
-      x: 40,
-      y: 50.1,
+      x: 40.2,
+      y: 50.3,
       touchDesignerTrigger: 'Fought_Melody_Lane',
       description: '',
     },
@@ -71,7 +71,7 @@ export const locations = {
     {
       id: 'denyse-wharf',
       name: 'DENYSE WHARF',
-      x: 35.8, 
+      x: 36, 
       y: 80.8,
       touchDesignerTrigger: 'Fought_Denyse_Wharf',
       description: '',
@@ -82,7 +82,7 @@ export const locations = {
     {
       id: 'prison-ship-martyrs-monument-mem',
       name: 'PRISON SHIP MARTYRS MONUMENT',
-      x: 49.5,
+      x: 50,
       y: 25.5,
       touchDesignerTrigger: 'Remembered_Prison_Ship_Monument',
       description: '',
@@ -90,7 +90,7 @@ export const locations = {
     {
       id: 'old-stone-house-brooklyn-mem',
       name: 'OLD STONE HOUSE OF BROOKLYN',
-      x: 47.4,
+      x: 48,
       y: 36.3,
       touchDesignerTrigger: 'Remembered_Old_Stone_House',
       description: '',
@@ -106,7 +106,7 @@ export const locations = {
     {
       id: 'dongan-oak-monument',
       name: 'DONGAN OAK MONUMENT',
-      x: 50.3,
+      x: 50.7,
       y: 42.6,
       touchDesignerTrigger: 'Remembered_Dongan_Oak',
       description: '',
@@ -114,7 +114,7 @@ export const locations = {
     {
       id: 'maryland-monument',
       name: 'MARYLAND MONUMENT',
-      x: 49.5,
+      x: 50.5,
       y: 45.8,
       touchDesignerTrigger: 'Remembered_Maryland_Monument',
       description: '',
