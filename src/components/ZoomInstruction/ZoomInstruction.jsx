@@ -11,8 +11,8 @@ const ZoomInstruction = () => {
         className="zoom-instruction__icon"
       />
       <div className="zoom-instruction__text">
-        <p className="zoom-instruction__line1">ZOOM ON THE MAP TO ENLARGE DISPLAY.</p>
-        <p className="zoom-instruction__line2">SUBMISSIONS ON THE PROJECTION WALL.</p>
+        <p className="zoom-instruction__line1">PINCH TO ZOOM, TAP PINS TO </p>
+        <p className="zoom-instruction__line2">DISPLAY STORIES ON THE PROJECTION WALL.</p>
       </div>
     </div>
   );
